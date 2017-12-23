@@ -20,6 +20,8 @@ CURSOR_GRAB = Qt.OpenHandCursor
 
 # class Canvas(QGLWidget):
 
+AllowOutsideAnnotations = True
+
 
 class Canvas(QWidget):
     zoomRequest = pyqtSignal(int)
@@ -115,7 +117,7 @@ class Canvas(QWidget):
             self.overrideCursor(CURSOR_DRAW)
             if self.current:
                 color = self.drawingLineColor
-                if self.outOfPixmap(pos):
+                if self.outOfPixmap(pos) and not AllowOutsideAnnotations:
                     # Don't allow the user to draw outside the pixmap.
                     # Project the point to the pixmap's edges.
                     pos = self.intersectionPoint(self.current[-1], pos)
