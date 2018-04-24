@@ -319,7 +319,7 @@ class Canvas(QWidget):
     def boundedMoveVertex(self, pos):
         index, shape = self.hVertex, self.hShape
         point = shape[index]
-        if self.outOfPixmap(pos):
+        if self.outOfPixmap(pos) and not AllowOutsideAnnotations:
             pos = self.intersectionPoint(point, pos)
 
         shiftPos = pos - point
@@ -339,13 +339,13 @@ class Canvas(QWidget):
         shape.moveVertexBy(lindex, lshift)
 
     def boundedMoveShape(self, shape, pos):
-        if self.outOfPixmap(pos):
+        if self.outOfPixmap(pos) and not AllowOutsideAnnotations:
             return False  # No need to move
         o1 = pos + self.offsets[0]
-        if self.outOfPixmap(o1):
+        if self.outOfPixmap(o1) and not AllowOutsideAnnotations:
             pos -= QPointF(min(0, o1.x()), min(0, o1.y()))
         o2 = pos + self.offsets[1]
-        if self.outOfPixmap(o2):
+        if self.outOfPixmap(o2) and not AllowOutsideAnnotations:
             pos += QPointF(min(0, self.pixmap.width() - o2.x()),
                            min(0, self.pixmap.height() - o2.y()))
         # The next line tracks the new position of the cursor
